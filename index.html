@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jarfolio — Showcase your JARs</title>
+  <meta name="description" content="Professional-looking portfolio to showcase Java JARs, with metadata, downloads, and SHA verification." />
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕️</text></svg>">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-grid">
+      <div class="brand">
+        <div class="logo">☕️ Jarfolio</div>
+        <div class="tagline">Flex your Java artifacts like a pro</div>
+      </div>
+      <div class="controls">
+        <button id="btnAdd" class="btn primary">+ Add JAR</button>
+        <button id="btnExport" class="btn">Export JSON</button>
+        <label class="btn file-btn">
+          Import JSON
+          <input id="importFile" type="file" accept="application/json" hidden>
+        </label>
+        <button id="toggleTheme" class="btn">Dark</button>
+      </div>
+    </div>
+    <div class="search-row container">
+      <input id="search" type="search" placeholder="Search by name, description, tags, groupId, artifactId..." />
+      <select id="sort">
+        <option value="new">Newest</option>
+        <option value="alpha">Name A→Z</option>
+        <option value="size">Size ↓</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="gallery" id="gallery" aria-live="polite"></section>
+    <aside class="sidebar">
+      <div class="dropzone" id="dropzone">
+        <h3>Drag & Drop JAR file</h3>
+        <p>Drop a .jar here to add quickly</p>
+      </div>
+      <div class="help">
+        <h4>Quick tips</h4>
+        <ul>
+          <li>Host JARs on GitHub Releases, S3, or CDN for permanent links.</li>
+          <li>Use the "Export JSON" to save metadata for your README or server.</li>
+          <li>Click a card to open full details & copy commands.</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Add / Edit Modal -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header>
+        <h2 id="modalTitle">Add JAR</h2>
+        <button id="modalClose" class="close" aria-label="Close">✕</button>
+      </header>
+      <form id="jarForm">
+        <div class="form-grid">
+          <label>Project name<input name="name" required></label>
+          <label>Version<input name="version" placeholder="1.0.0"></label>
+          <label>Group ID<input name="groupId" placeholder="com.example"></label>
+          <label>Artifact ID<input name="artifactId" placeholder="my-app"></label>
+          <label>Tags<input name="tags" placeholder="utility,cli,db"></label>
+          <label>Jar URL<input name="url" placeholder="https://... or leave empty to upload"></label>
+          <label>License<input name="license" placeholder="MIT / Apache-2.0"></label>
+          <label>Repo URL<input name="repo" placeholder="https://github.com/you/project"></label>
+        </div>
+
+        <label class="file-uploader">Local JAR
+          <input id="jarFile" type="file" accept=".jar">
+        </label>
+
+        <label>Description
+          <textarea name="description" rows="4" placeholder="Short description..."></textarea>
+        </label>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn primary">Save</button>
+          <button type="button" id="btnClearForm" class="btn">Clear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Details Modal -->
+  <div class="detail-modal" id="detailModal" aria-hidden="true">
+    <div class="detail-card" role="dialog" aria-modal="true">
+      <button class="close" id="detailClose" aria-label="Close">✕</button>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer container">
+    <div>Made with ☕ and Java — show off those jars. • <a href="#" id="resetBtn">Reset demo</a></div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
